@@ -37,6 +37,11 @@ namespace RealmDotnetTutorial
 
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
                 SetUpTaskList();
+                var token = taskRealm.All<Task>()
+                .SubscribeForNotifications((sender, changes, error) =>
+                {
+                    SetUpTaskList();
+                });
             }
             catch (Exception ex)
             {
@@ -50,6 +55,7 @@ namespace RealmDotnetTutorial
             WaitingLayout.IsVisible = true;
             _tasks = new ObservableCollection<Task>(taskRealm.All<Task>().ToList());
             listTasks.ItemsSource = MyTasks;
+            
             WaitingLayout.IsVisible = false;
         }
 
