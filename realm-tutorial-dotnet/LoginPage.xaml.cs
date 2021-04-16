@@ -27,6 +27,7 @@ namespace RealmDotnetTutorial
                 var user = await App.RealmApp.LogInAsync(Credentials.EmailPassword(email, password));
                 if (user != null)
                 {
+                    App.gsky_RealmUser = user;
                     var projectPage = new ProjectPage();
                     await Navigation.PushAsync(projectPage);
                 }

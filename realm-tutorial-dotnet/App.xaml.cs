@@ -2,13 +2,18 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Realms.Sync;
+using Realms;
 
 namespace RealmDotnetTutorial
 {
     public partial class App : Application
     {
-        private const string appId = "<my_realm_app_id>";
+        private const string appId = "tasktracker-gfend";
         public static Realms.Sync.App RealmApp;
+        public static Realms.Sync.User gsky_RealmUser { get; set; }
+        public static Realms.Sync.SyncConfiguration gsky_RealmSyncConfig { get; set; }
+        public static Realm gsky_Realm { get; set; }
+        public static string gsky_pk { get; set; }
 
         public App()
         {

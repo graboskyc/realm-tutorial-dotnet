@@ -31,7 +31,7 @@ namespace RealmDotnetTutorial
 
         protected override async void OnAppearing()
         {
-            WaitingLayout.IsVisible = true;
+            //WaitingLayout.IsVisible = true;
             if (App.RealmApp.CurrentUser == null)
             {
                 // No user? Go back to the LoginPage
@@ -48,12 +48,21 @@ namespace RealmDotnetTutorial
         {
             try
             {
-                var syncConfig = new SyncConfiguration(
-                    $"user={ App.RealmApp.CurrentUser.Id }",
-                    App.RealmApp.CurrentUser);
+                //var syncConfig = new SyncConfiguration($"user={ App.RealmApp.CurrentUser.Id }", App.RealmApp.CurrentUser);
+                App.gsky_pk = $"user={ App.gsky_RealmUser.Id }";
+                var syncConfig = new SyncConfiguration(App.gsky_pk, App.gsky_RealmUser);
                 userRealm = await Realm.GetInstanceAsync(syncConfig);
-                user = userRealm.Find<User>(App.RealmApp.CurrentUser.Id);
-                if (user != null) SetUpProjectList();
+                user = userRealm.Find<User>(App.gsky_RealmUser.Id);
+                if (user != null)
+                {
+                    SetUpProjectList();
+                } else
+                {
+                    MyProjects.Clear();
+                    listProjects.ItemsSource = MyProjects;
+                    MyProjects.Add(new Project("Why is user null?"));
+                    MyProjects.Add(new Project("User pk is " + App.gsky_pk));
+                }
             }
             catch (Exception ex)
             {
@@ -80,7 +89,7 @@ namespace RealmDotnetTutorial
                 MyProjects.Add(new Project("No projects found!"));
             }
 
-; WaitingLayout.IsVisible = false;
+//; WaitingLayout.IsVisible = false;
         }
 
         void TextCell_Tapped(object sender, EventArgs e)
